@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { extractDigit } from '../utils';
+
 import { CharacterSummary } from './character-summary';
 
 import type { CharacterT } from '../types';
@@ -12,7 +14,7 @@ export const CharacterList = ({ characters }: PropsT) => {
   return (
     <ul className="w-80">
       {characters.map((character) => {
-        const id = /\d+/g.exec(character.url);
+        const id = extractDigit(character.url);
 
         return (
           <li key={character.name}>

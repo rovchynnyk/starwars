@@ -1,16 +1,13 @@
+import { fetchData } from './utils';
+
 export const getCharactersByPage = async (page: number = 1) => {
-  const response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
-  return response.json();
+  return fetchData(`https://swapi.dev/api/people/?page=${page}`);
 };
 
 export const getCharactersBySearch = async (search: string) => {
-  const response = await fetch(
-    `https://swapi.dev/api/people/?search=${search}`
-  );
-  return response.json();
+  return fetchData(`https://swapi.dev/api/people/?search=${search}`);
 };
 
 export const getCharacter = async (id: string) => {
-  const response = await fetch(`https://swapi.dev/api/people/${id}`);
-  return response.json();
+  return fetchData(`https://swapi.dev/api/people/${id}`);
 };

@@ -36,9 +36,18 @@ function App() {
     },
     {
       keepPreviousData: true,
-      staleTime: Number.POSITIVE_INFINITY,
     }
   );
+
+  // todo prefetch the next page and remove todo :)
+  // useEffect(() => {
+  //   if (!isPreviousData && data?.hasMore) {
+  //     queryClient.prefetchQuery({
+  //       queryKey: ['projects', page + 1],
+  //       queryFn: () => fetchProjects(page + 1),
+  //     });
+  //   }
+  // }, [data, isPreviousData, page, queryClient]);
 
   useEffect(() => {
     document.body.style.overflow = isFetching ? 'hidden' : '';

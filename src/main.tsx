@@ -3,12 +3,18 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { CharacterDetails } from './components/character-detailed.tsx';
+import { CharacterDetails } from './components/character/character-detailed.tsx';
 
 import App from './App.tsx';
 import './index.css';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
