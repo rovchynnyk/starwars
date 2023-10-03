@@ -9,12 +9,13 @@ import {
   Pagination,
   SearchBox,
 } from './components';
-import { getCharacters, getCharactersBySearch } from './api';
+import { getCharactersByPage, getCharactersBySearch } from './api';
 import { useSearchQuery } from './use-search-query';
 import './App.css';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
+
   const query = useSearchQuery();
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ function App() {
     async () => {
       const { results, count } = await (searchTerm
         ? getCharactersBySearch(searchTerm)
-        : getCharacters(currentPage));
+        : getCharactersByPage(currentPage));
 
       return { results, count };
     },
@@ -50,6 +51,7 @@ function App() {
   const handleSearch = useCallback(
     (searchTerm: string) => {
       setSearchTerm(searchTerm);
+
       query.delete('page');
 
       navigate(query.toString());
