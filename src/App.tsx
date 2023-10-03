@@ -1,20 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-import { Pagination } from './components/pagination';
-import { Logo } from './components/logo';
-import { CharacterList } from './components/character-list';
-import { Loader } from './components/loader';
-import { SearchBox } from './components/search-box';
+import {
+  CharacterList,
+  Loader,
+  Logo,
+  Pagination,
+  SearchBox,
+} from './components';
 import { getCharacters, getCharactersBySearch } from './api';
 import { useSearchQuery } from './use-search-query';
 import './App.css';
 
-import type { CharacterT } from './types';
-
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const query = useSearchQuery();
+  const navigate = useNavigate();
 
   const currentPage = Number(query.get('page')) || 1;
 
@@ -23,23 +25,19 @@ function App() {
     isLoading,
     isFetching,
   } = useQuery(
-    ['characters', currentPage],
-    async () => await getCharacters(currentPage),
+    ['characters', currentPage, searchTerm],
+    async () => {
+      const { results, count } = await (searchTerm
+        ? getCharactersBySearch(searchTerm)
+        : getCharacters(currentPage));
+
+      return { results, count };
+    },
     {
-      select: (data) => {
-        console.log(444, data);
-        return data;
-      },
       keepPreviousData: true,
       staleTime: Number.POSITIVE_INFINITY,
     }
   );
-
-  const characters = useMemo(() => {
-    return results.filter(({ name }: CharacterT) => {
-      return name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-  }, [results, searchTerm]);
 
   useEffect(() => {
     document.body.style.overflow = isFetching ? 'hidden' : '';
@@ -48,6 +46,16 @@ function App() {
       document.body.style.overflow = '';
     };
   }, [isFetching]);
+
+  const handleSearch = useCallback(
+    (searchTerm: string) => {
+      setSearchTerm(searchTerm);
+      query.delete('page');
+
+      navigate(query.toString());
+    },
+    [navigate, query]
+  );
 
   if (isLoading) return <Loader />;
 
@@ -61,9 +69,9 @@ function App() {
 
       <Logo />
 
-      <SearchBox onSearch={setSearchTerm} />
+      <SearchBox onSearch={handleSearch} />
 
-      <CharacterList characters={characters} />
+      <CharacterList characters={results} />
 
       <Pagination count={count} currentPage={currentPage} />
     </>
