@@ -61,11 +61,7 @@ function App() {
 
   return (
     <>
-      {isFetching && (
-        <div className="fixed left-0 flex items-center justify-center w-full h-full bg-white/75">
-          <Loader />
-        </div>
-      )}
+      {isFetching && <Loader />}
 
       <Logo />
 
