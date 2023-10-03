@@ -1,4 +1,4 @@
-export { Character } from './character';
+export { CharacterSummary } from './character-summary';
 export { Pagination } from './pagination';
 export { Logo } from './logo';
 export { Loader } from './loader';

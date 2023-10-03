@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { CharacterDetails } from './components/character-details';
+import { CharacterDetails } from './components/character-detailed.tsx';
 
 import App from './App.tsx';
 import './index.css';
