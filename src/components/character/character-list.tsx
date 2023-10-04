@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import { extractDigit } from '../utils';
+import { extractDigit } from '../../utils';
 
 import { CharacterSummary } from './character-summary';
 
-import type { CharacterT } from '../types';
+import type { CharacterT } from '../../types';
 
 type PropsT = Readonly<{
   characters: ReadonlyArray<CharacterT>;

@@ -1,9 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
+import { KeyValueList } from '../key-value-list';
+import { Starship } from '../starship';
+
 import { getCharacter } from '../../api';
 
 import { Loader } from '../loader';
+import { extractDigit } from '../../utils';
 
 export const CharacterDetails = () => {
   const { id = '' } = useParams();
@@ -16,7 +20,7 @@ export const CharacterDetails = () => {
     return <Loader />;
   }
 
-  console.log(55, data);
+  // return <div>Character</div>;
 
   // todo it might be better to not to destruct data here
   const {
@@ -29,18 +33,23 @@ export const CharacterDetails = () => {
     vehicles,
   } = data;
 
-  console.log(id);
+  console.log(data);
+
   return (
     <div>
       Character
       <>
-        <li>Hair color {hair_color}</li>
-        <li>Mass {mass}</li>
-        <li>Gender {gender}</li>
-        <li>Eye color {eye_color}</li>
-        <li>Homeworld {homeworld}</li>
+        <KeyValueList
+          data={{
+            'Hair color': hair_color,
+            Mass: mass,
+            Gender: gender,
+            'Eye color': eye_color,
+            Homeworld: homeworld,
+          }}
+        />
 
-        {starships?.length ? (
+        {/* {starships?.length ? (
           <li>
             Starhips{' '}
             {Array.from({ length: starships.length }).map((_, index) => (
@@ -49,7 +58,13 @@ export const CharacterDetails = () => {
               </Link>
             ))}
           </li>
-        ) : null}
+        ) : null} */}
+
+        {starships?.map((starship) => {
+          const id = extractDigit(starship.url);
+
+          return <Starship id={id} />;
+        })}
 
         {vehicles?.length ? (
           <li>

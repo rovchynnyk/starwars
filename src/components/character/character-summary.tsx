@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
-import type { CharacterT } from '../types';
+import { KeyValueList } from '../key-value-list';
+
+import type { CharacterT } from '../../types';
 
 export const CharacterSummary = ({
   name,
@@ -24,11 +26,13 @@ export const CharacterSummary = ({
     <>
       <h2 className="font-semibold text-lg">{name}</h2>
 
-      <ul className="list-none">
-        <li>Birth year {birth_year}</li>
-        <li>Height {height}</li>
-        <li>Date Created: {createdDate}</li>
-      </ul>
+      <KeyValueList
+        data={{
+          'Birth year': birth_year,
+          Height: `${height} cm`,
+          'Date Created': createdDate,
+        }}
+      />
     </>
   );
 };
