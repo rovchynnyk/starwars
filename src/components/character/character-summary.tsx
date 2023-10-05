@@ -1,5 +1,6 @@
-import type { CharacterT } from '../../types';
 import { formatDateTime } from '../../utils';
+
+import type { CharacterT } from '../../types';
 
 export const CharacterSummary = ({
   name,

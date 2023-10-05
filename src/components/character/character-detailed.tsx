@@ -1,12 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-import { Personal } from '../personal';
-
-import { EntityLayout } from '../entity-layout';
-
 import { getCharacter } from '../../api';
-
+import { Personal } from '../personal';
+import { EntityLayout } from '../entity-layout';
 import { Loader } from '../loader';
 
 export const CharacterDetails = () => {

@@ -19,11 +19,3 @@ export const getStarship = async (id: string) => {
 export const getSpecies = async (id: string) => {
   return fetchData(`https://swapi.dev/api/species/${id}`);
 };
-
-export const getVehicle = async (id: string) => {
-  return fetchData(`https://swapi.dev/api/vehicles/${id}`);
-};
-
-export const getPlanet = async (id: string) => {
-  return fetchData(`https://swapi.dev/api/planets/${id}`);
-};

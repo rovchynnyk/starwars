@@ -21,19 +21,20 @@ export const Species = ({ id }: PropsT) => {
   const { name, average_lifespan, language, classification } = data;
 
   return (
-    <ul className="list-none">
-      <li>
-        <b>Species</b>: {name}
-      </li>
-      <li>
-        <b>Language</b>: {language}
-      </li>
-      <li>
-        <b>Classification</b>: {classification}
-      </li>
-      <li>
-        <b>Average Lifespan</b>: {average_lifespan}
-      </li>
-    </ul>
+    <>
+      <h3 className="font-bold text-xl mb-1">{name}</h3>
+
+      <ul className="list-none">
+        <li>
+          <b>Average Lifespan</b>: {average_lifespan}
+        </li>
+        <li>
+          <b>Classification</b>: {classification}
+        </li>
+        <li>
+          <b>Language</b>: {language}
+        </li>
+      </ul>
+    </>
   );
 };
