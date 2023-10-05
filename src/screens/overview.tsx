@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CharacterList, Pagination, SearchBox } from '../components';
-import { getCharactersByPage, getCharactersBySearch } from '../api';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+
+import { CharacterList } from '../components/character/character-list';
+import { Pagination } from '../components/pagination';
+import { SearchBox } from '../components/search-box';
+import { getCharactersByPage, getCharactersBySearch } from '../api';
 import { useSearchQuery } from '../use-search-query';
 import { useOverlay } from '../components/overlay-provider';
 

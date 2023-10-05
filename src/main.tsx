@@ -5,7 +5,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import App from './App.tsx';
 import './index.css';
-import { Overview, Details } from './screens';
+import { Overview } from './screens/overview';
+import { Details } from './screens/details';
 import { OverlayProvider } from './components/overlay-provider.tsx';
 
 const queryClient = new QueryClient({

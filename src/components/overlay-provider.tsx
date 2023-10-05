@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react';
-import { Loader } from '.';
+
+import { Loader } from './loader';
 
 type OverlayContextT = Readonly<{
   hideOverlay: () => void;
