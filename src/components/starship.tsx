@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { Loader } from './loader';
-import { KeyValueList } from './key-value-list';
+import { Skeleton } from './skeleton';
 import { getStarship } from '../api';
 
 type PropsT = Readonly<{
@@ -9,15 +8,30 @@ type PropsT = Readonly<{
 }>;
 
 export const Starship = ({ id }: PropsT) => {
-  const { data } = useQuery(['starship', id], async () => {
-    const res = getStarship(id);
-
-    console.log(1, res);
+  const { data, isLoading } = useQuery(['starship', id], async () => {
+    const res = await getStarship(id);
 
     return res;
   });
 
-  console.log(data);
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
-  return <KeyValueList data={{ 'Starship name': 'Starship name' }} />;
+  const { name, model, passengers } = data;
+
+  return (
+    <>
+      <h3 className="font-bold text-xl mb-1">{name}</h3>
+
+      <ul className="list-none">
+        <li>
+          <b>Model</b>: {model}
+        </li>
+        <li>
+          <b>Passengers</b>: {passengers}
+        </li>
+      </ul>
+    </>
+  );
 };

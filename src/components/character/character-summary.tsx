@@ -1,8 +1,5 @@
-import { useMemo } from 'react';
-
-import { KeyValueList } from '../key-value-list';
-
 import type { CharacterT } from '../../types';
+import { formatDateTime } from '../../utils';
 
 export const CharacterSummary = ({
   name,
@@ -10,29 +7,15 @@ export const CharacterSummary = ({
   created,
   birth_year,
 }: CharacterT) => {
-  const createdDate = useMemo(() => {
-    return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-      .format(new Date(created))
-      .replace(',', '');
-  }, [created]);
-
   return (
-    <>
+    <div>
       <h2 className="font-semibold text-lg">{name}</h2>
 
-      <KeyValueList
-        data={{
-          'Birth year': birth_year,
-          Height: `${height} cm`,
-          'Date Created': createdDate,
-        }}
-      />
-    </>
+      <ul>
+        <li>Height: {height} cm</li>
+        <li>Birth year: {birth_year}</li>
+        <li>Created: {formatDateTime(created)}</li>
+      </ul>
+    </div>
   );
 };

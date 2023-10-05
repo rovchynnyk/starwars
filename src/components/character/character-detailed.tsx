@@ -1,18 +1,18 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-import { KeyValueList } from '../key-value-list';
-import { Starship } from '../starship';
+import { Personal } from '../personal';
+
+import { EntityLayout } from '../entity-layout';
 
 import { getCharacter } from '../../api';
 
 import { Loader } from '../loader';
-import { extractDigit } from '../../utils';
 
 export const CharacterDetails = () => {
   const { id = '' } = useParams();
 
-  const { status, isLoading, data } = useQuery(['character', id], async () =>
+  const { data, isLoading } = useQuery(['character', id], async () =>
     getCharacter(id)
   );
 
@@ -20,63 +20,19 @@ export const CharacterDetails = () => {
     return <Loader />;
   }
 
-  // return <div>Character</div>;
-
-  // todo it might be better to not to destruct data here
-  const {
-    hair_color,
-    mass,
-    gender,
-    eye_color,
-    homeworld,
-    starships,
-    vehicles,
-  } = data;
-
-  console.log(data);
+  const { starships, name, species, ...personal } = data;
 
   return (
     <div>
-      Character
-      <>
-        <KeyValueList
-          data={{
-            'Hair color': hair_color,
-            Mass: mass,
-            Gender: gender,
-            'Eye color': eye_color,
-            Homeworld: homeworld,
-          }}
-        />
+      <h1 className="font-bold text-3xl mb-6">{name}</h1>
 
-        {/* {starships?.length ? (
-          <li>
-            Starhips{' '}
-            {Array.from({ length: starships.length }).map((_, index) => (
-              <Link key={index} to={starships[index]} className="mr-2">
-                {index + 1}
-              </Link>
-            ))}
-          </li>
-        ) : null} */}
+      <div className="text-left">
+        <Personal {...personal} />
 
-        {starships?.map((starship) => {
-          const id = extractDigit(starship.url);
+        <EntityLayout entities={species} entityType="species" />
 
-          return <Starship id={id} />;
-        })}
-
-        {vehicles?.length ? (
-          <li>
-            Vehicles{' '}
-            {Array.from({ length: vehicles.length }).map((_, index) => (
-              <Link key={index} to={vehicles[index]} className="mr-2">
-                {index + 1}
-              </Link>
-            ))}
-          </li>
-        ) : null}
-      </>
+        <EntityLayout entities={starships} entityType="starship" />
+      </div>
     </div>
   );
 };

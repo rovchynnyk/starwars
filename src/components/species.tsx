@@ -1,20 +1,39 @@
 import { useQuery } from 'react-query';
 
-import { KeyValueList } from './key-value-list';
 import { getSpecies } from '../api';
+
+import { Skeleton } from './skeleton';
 
 type PropsT = Readonly<{
   id: string;
 }>;
 
 export const Species = ({ id }: PropsT) => {
-  const { data } = useQuery(['species', id], async () => {
-    const res = getSpecies(id);
+  const { data, isLoading } = useQuery(
+    ['species', id],
+    async () => await getSpecies(id)
+  );
 
-    console.log(2, res);
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
-    return res;
-  });
+  const { name, average_lifespan, language, classification } = data;
 
-  return <KeyValueList data={{ 'Species name': 'Species name' }} />;
+  return (
+    <ul className="list-none">
+      <li>
+        <b>Species</b>: {name}
+      </li>
+      <li>
+        <b>Language</b>: {language}
+      </li>
+      <li>
+        <b>Classification</b>: {classification}
+      </li>
+      <li>
+        <b>Average Lifespan</b>: {average_lifespan}
+      </li>
+    </ul>
+  );
 };
