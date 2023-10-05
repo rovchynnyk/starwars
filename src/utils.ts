@@ -46,3 +46,26 @@ export const formatDateTime = (date: Date) => {
 export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const getVisiblePages = (pages: number[], currentPage: number) => {
+  const pagesLimit = 3;
+
+  if (pages.length <= pagesLimit) {
+    return pages;
+  }
+
+  let from = currentPage - Math.ceil(pagesLimit / 2);
+  let to = currentPage + Math.floor(pagesLimit / 2);
+
+  if (from < 0) {
+    from = 0;
+    to = to + Math.ceil(pagesLimit / 2) - currentPage;
+  }
+
+  if (to > pages.length) {
+    from = from - (to - pages.length);
+    to = pages.length;
+  }
+
+  return pages.slice(from, to);
+};

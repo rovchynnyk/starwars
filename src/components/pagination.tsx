@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getVisiblePages } from '../utils';
 
 type PropsT = Readonly<{
   count: number;
@@ -8,7 +9,18 @@ type PropsT = Readonly<{
 
 export const Pagination = ({ count, currentPage }: PropsT) => {
   const navigate = useNavigate();
-  const totalPages = useMemo(() => Math.ceil(count / 10), [count]);
+
+  const totalPages = Math.ceil(count / 10);
+
+  const pages = useMemo(() => {
+    return Array.from({ length: totalPages }, (_, index) => {
+      return index + 1;
+    });
+  }, [totalPages]);
+
+  const visiblePages = useMemo(() => {
+    return getVisiblePages(pages, currentPage);
+  }, [currentPage, pages]);
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -37,17 +49,17 @@ export const Pagination = ({ count, currentPage }: PropsT) => {
         Previous
       </a>
 
-      {Array.from({ length: totalPages }).map((_, index) => (
+      {visiblePages.map((page) => (
         <a
           className={`${
-            index + 1 === currentPage
+            page === currentPage
               ? 'pointer-events-none text-black bg-gray-100 rounded-lg'
               : 'text-blue-500'
           } px-3 py-1 cursor-pointer hover:text-blue-800`}
-          key={index}
-          onClick={handlePageChange(index + 1)}
+          key={page}
+          onClick={handlePageChange(page)}
         >
-          {index + 1}
+          {page}
         </a>
       ))}
 
