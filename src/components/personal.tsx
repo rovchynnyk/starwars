@@ -3,12 +3,13 @@ import astronautLogo from '../assets/astronaut.svg';
 import { formatDateTime } from '../utils';
 
 type PropsT = Readonly<{
+  name: string;
   birth_year: string;
   height: string;
   created: Date;
 }>;
 
-export const Personal = ({ birth_year, height, created }: PropsT) => {
+export const Personal = ({ name, birth_year, height, created }: PropsT) => {
   return (
     <>
       <div className="flex">
@@ -20,6 +21,8 @@ export const Personal = ({ birth_year, height, created }: PropsT) => {
 
         <h2 className="text-2xl font-bold mb-2">Personal Data</h2>
       </div>
+
+      <h3 className="font-bold text-xl mb-1">{name}</h3>
 
       <ul className="list-none mb-4">
         <li>

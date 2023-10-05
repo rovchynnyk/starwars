@@ -6,7 +6,7 @@ export const Logo = () => {
   return (
     <Link
       to="/"
-      className="text-3xl font-bold flex flex-col p-5 hover:text-black"
+      className="text-3xl text-center font-bold flex flex-col p-5 hover:text-black"
     >
       <img
         src={saturnLogo}

@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { CharacterDetails } from './components/character/character-detailed.tsx';
-
 import App from './App.tsx';
 import './index.css';
+import { Overview, Details } from './screens';
+import { OverlayProvider } from './components/overlay-provider.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,17 +20,25 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-  {
-    path: '/characters/:id',
-    element: <CharacterDetails />,
+    children: [
+      {
+        path: '/',
+        element: <Overview />,
+      },
+      {
+        path: '/characters/:id',
+        element: <Details />,
+      },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <OverlayProvider>
+        <RouterProvider router={router} />
+      </OverlayProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
