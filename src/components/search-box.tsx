@@ -17,7 +17,7 @@ export const SearchBox = ({ onSearch }: PropsT) => {
 
   return (
     <input
-      className="border border-gray-300 rounded-md p-2 m-2 min-w-full"
+      className="border border-gray-300 rounded-md p-2 my-2 min-w-full"
       type="text"
       placeholder="Search by character name..."
       onChange={handleChange}

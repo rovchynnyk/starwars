@@ -48,7 +48,7 @@ export const capitalize = (str: string) => {
 };
 
 export const getVisiblePages = (pages: number[], currentPage: number) => {
-  const pagesLimit = 3;
+  const pagesLimit = 5;
 
   if (pages.length <= pagesLimit) {
     return pages;

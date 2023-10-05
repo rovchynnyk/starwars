@@ -42,7 +42,9 @@ export const Pagination = ({ count, currentPage }: PropsT) => {
     <div className="p-4">
       <a
         className={`${
-          currentPage === 1 ? 'text-black pointer-events-none' : 'text-blue-500'
+          currentPage === 1
+            ? 'text-black pointer-events-none dark:text-white'
+            : 'text-blue-500'
         } px-3 cursor-pointer hover:text-blue-800`}
         onClick={handlePageChange(currentPage - 1)}
       >
@@ -66,7 +68,7 @@ export const Pagination = ({ count, currentPage }: PropsT) => {
       <a
         className={`${
           currentPage === totalPages
-            ? 'text-black pointer-events-none'
+            ? 'text-black pointer-events-none dark:text-white'
             : 'text-blue-500'
         } px-3 cursor-pointer hover:text-blue-800`}
         onClick={handlePageChange(currentPage + 1)}
