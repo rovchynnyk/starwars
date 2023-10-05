@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 
 import { Skeleton } from './skeleton';
 import { getStarship } from '../api';
+import { formatNumber } from '../utils';
 
 type PropsT = Readonly<{
   id: string;
@@ -29,7 +30,7 @@ export const Starship = ({ id }: PropsT) => {
           <b>Model</b>: {model}
         </li>
         <li>
-          <b>Passengers</b>: {passengers}
+          <b>Passengers</b>: {formatNumber(passengers)}
         </li>
       </ul>
     </>
