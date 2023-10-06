@@ -7,7 +7,7 @@ import { CharacterSummary } from './character-summary';
 import type { CharacterT } from '../../types';
 
 type PropsT = Readonly<{
-  characters: ReadonlyArray<CharacterT>;
+  characters: CharacterT[];
 }>;
 
 export const CharacterList = ({ characters }: PropsT) => {

@@ -9,10 +9,10 @@ type PropsT = Readonly<{
 }>;
 
 export const Species = ({ id }: PropsT) => {
-  const { data, isLoading } = useQuery(
-    ['species', id],
-    async () => await getSpecies(id)
-  );
+  const { data, isLoading } = useQuery({
+    queryKey: ['species', id],
+    queryFn: async () => await getSpecies(id),
+  });
 
   if (isLoading) {
     return <Skeleton />;

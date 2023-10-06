@@ -13,14 +13,17 @@ export const Details = () => {
 
   const { showOverlay, hideOverlay } = useOverlay();
 
-  const { data, isLoading } = useQuery(['character', id], async () => {
-    showOverlay();
+  const { data, isLoading } = useQuery({
+    queryKey: ['character', id],
+    queryFn: async () => {
+      showOverlay();
 
-    const res = await getCharacter(id);
+      const res = await getCharacter(id);
 
-    hideOverlay();
+      hideOverlay();
 
-    return res;
+      return res;
+    },
   });
 
   if (isLoading) {

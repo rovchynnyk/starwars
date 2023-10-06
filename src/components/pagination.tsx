@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { getVisiblePages } from '../utils';
 
 type PropsT = Readonly<{
-  count: number;
   currentPage: number;
+  totalPages: number;
 }>;
 
-export const Pagination = ({ count, currentPage }: PropsT) => {
+export const Pagination = ({ currentPage, totalPages }: PropsT) => {
   const navigate = useNavigate();
-
-  const totalPages = Math.ceil(count / 10);
 
   const pages = useMemo(() => {
     return Array.from({ length: totalPages }, (_, index) => {

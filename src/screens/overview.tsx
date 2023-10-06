@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { CharacterList } from '../components/character/character-list';
 import { Pagination } from '../components/pagination';
@@ -13,33 +13,34 @@ export const Overview = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const query = useSearchQuery();
+  const currentPage = Number(query.get('page')) || 1;
+
+  const queryClient = useQueryClient();
+
   const navigate = useNavigate();
 
   const { showOverlay, hideOverlay } = useOverlay();
 
-  const currentPage = Number(query.get('page')) || 1;
+  const fetcher = searchTerm ? getCharactersBySearch : getCharactersByPage;
 
   const {
     data: { results = [], count } = {},
     isLoading,
     isFetching,
-  } = useQuery(
-    ['characters', currentPage, searchTerm],
-    async () => {
+    isPreviousData,
+  } = useQuery({
+    queryKey: ['characters', currentPage, searchTerm],
+    queryFn: async () => {
       showOverlay();
 
-      const { results, count } = await (searchTerm
-        ? getCharactersBySearch(searchTerm)
-        : getCharactersByPage(currentPage));
+      const { results, count } = await fetcher(currentPage, searchTerm);
 
       hideOverlay();
 
       return { results, count };
     },
-    {
-      keepPreviousData: true,
-    }
-  );
+    keepPreviousData: true,
+  });
 
   const handleSearch = useCallback(
     (searchTerm: string) => {
@@ -52,6 +53,8 @@ export const Overview = () => {
     [navigate, query]
   );
 
+  const totalPages = Math.ceil(count / 10);
+
   useEffect(() => {
     document.body.style.overflow = isFetching ? 'hidden' : '';
 
@@ -60,15 +63,21 @@ export const Overview = () => {
     };
   }, [isFetching]);
 
-  // todo prefetch the next page and remove todo :)
-  // useEffect(() => {
-  //   if (!isPreviousData && data?.hasMore) {
-  //     queryClient.prefetchQuery({
-  //       queryKey: ['projects', page + 1],
-  //       queryFn: () => fetchProjects(page + 1),
-  //     });
-  //   }
-  // }, [data, isPreviousData, page, queryClient]);
+  useEffect(() => {
+    if (!isPreviousData && currentPage < totalPages) {
+      queryClient.prefetchQuery({
+        queryKey: ['characters', currentPage + 1, searchTerm],
+        queryFn: async () => await fetcher(currentPage + 1, searchTerm),
+      });
+    }
+  }, [
+    currentPage,
+    fetcher,
+    isPreviousData,
+    queryClient,
+    searchTerm,
+    totalPages,
+  ]);
 
   if (isLoading) {
     return null;
@@ -80,7 +89,7 @@ export const Overview = () => {
 
       <CharacterList characters={results} />
 
-      <Pagination count={count} currentPage={currentPage} />
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 };

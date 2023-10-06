@@ -9,10 +9,13 @@ type PropsT = Readonly<{
 }>;
 
 export const Starship = ({ id }: PropsT) => {
-  const { data, isLoading } = useQuery(['starship', id], async () => {
-    const res = await getStarship(id);
+  const { data, isLoading } = useQuery({
+    queryKey: ['starship', id],
+    queryFn: async () => {
+      const res = await getStarship(id);
 
-    return res;
+      return res;
+    },
   });
 
   if (isLoading) {
