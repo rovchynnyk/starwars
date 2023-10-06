@@ -26,7 +26,6 @@ export const Overview = () => {
   const {
     data: { results = [], count } = {},
     isLoading,
-    isFetching,
     isPreviousData,
   } = useQuery({
     queryKey: ['characters', currentPage, searchTerm],
@@ -35,10 +34,9 @@ export const Overview = () => {
 
       const { results, count } = await fetcher(currentPage, searchTerm);
 
-      hideOverlay();
-
       return { results, count };
     },
+    onSuccess: hideOverlay,
     keepPreviousData: true,
   });
 
@@ -54,15 +52,6 @@ export const Overview = () => {
   );
 
   const totalPages = Math.ceil(count / 10);
-
-  // Prevent scrolling when fetching more data
-  useEffect(() => {
-    document.body.style.overflow = isFetching ? 'hidden' : '';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isFetching]);
 
   // Prefetch next page
   useEffect(() => {

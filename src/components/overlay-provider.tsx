@@ -17,9 +17,17 @@ type PropsT = React.PropsWithChildren;
 export const OverlayProvider = ({ children }: PropsT) => {
   const [showLoader, setShowLoader] = useState(false);
 
-  const hideOverlay = () => setShowLoader(false);
+  const hideOverlay = () => {
+    document.body.style.overflow = '';
 
-  const showOverlay = () => setShowLoader(true);
+    setShowLoader(false);
+  };
+
+  const showOverlay = () => {
+    document.body.style.overflow = 'hidden';
+
+    setShowLoader(true);
+  };
 
   const value = useMemo(() => ({ hideOverlay, showOverlay }), []);
 
