@@ -55,6 +55,7 @@ export const Overview = () => {
 
   const totalPages = Math.ceil(count / 10);
 
+  // Prevent scrolling when fetching more data
   useEffect(() => {
     document.body.style.overflow = isFetching ? 'hidden' : '';
 
@@ -63,6 +64,7 @@ export const Overview = () => {
     };
   }, [isFetching]);
 
+  // Prefetch next page
   useEffect(() => {
     if (!isPreviousData && currentPage < totalPages) {
       queryClient.prefetchQuery({
